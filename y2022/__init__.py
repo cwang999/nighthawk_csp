@@ -1,4 +1,10 @@
 from flask import Blueprint, render_template
+from flask import Flask
+from flask_login import LoginManager
+
+app = Flask(__name__)
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 app_y2022 = Blueprint('y2022', __name__,
                       url_prefix='/y2022',

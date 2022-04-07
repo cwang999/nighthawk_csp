@@ -19,6 +19,7 @@ app_crud = Blueprint('crud', __name__,
 
 
 # Default URL for Blueprint
+# flask_login.login_required
 @app_crud.route('/')
 @login_required  # Flask-Login uses this decorator to restrict acess to logged in users
 def crud():
@@ -46,6 +47,10 @@ def crud_login():
     # if not logged in, show the login page
     return render_template("login.html")
 
+@app_crud.route('/logout/', methods=["GET", "POST"])
+def crud_logout():
+    logout()
+    return redirect(url_for('crud.crud'))
 
 @app_crud.route('/authorize/', methods=["GET", "POST"])
 def crud_authorize():
@@ -56,7 +61,8 @@ def crud_authorize():
         email = request.form.get("email")
         password1 = request.form.get("password1")
         password2 = request.form.get("password1")           # password should be verified
-        if authorize(user_name, email, password1):    # zero index [0] used as user_name and email are type tuple
+        phone = request.form.get("phone")
+        if authorize(user_name, email, password1, phone):    # zero index [0] used as user_name and email are type tuple
             return redirect(url_for('crud.crud_login'))
     # show the auth user page if the above fails for some reason
     return render_template("authorize.html")
@@ -130,3 +136,4 @@ def search_term():
     term = req['term']
     response = make_response(jsonify(users_ilike(term)), 200)
     return response
+
