@@ -14,7 +14,8 @@
 {% block content %}
     <div class="container py-4">
         <header class="pb-3 mb-4 border-bottom border-primary text-dark">
-            <span class="fs-4">SQL CRUD Admin Page</span>
+            <!-- HACK 2 -->
+            <span class="fs-4">SQL CRUD Admin Page, Logged in as {{ session.username }}</span>
         </header>
         <header class="pb-3 mb-4 border-bottom border-primary text-dark">
             <span class="fs-4"><a href="{{  url_for('crud.crud_logout') }}">Logout</a></span>

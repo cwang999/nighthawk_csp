@@ -1,5 +1,5 @@
 """control dependencies to support CRUD app routes and APIs"""
-from flask import Blueprint, render_template, request, url_for, redirect, jsonify, make_response
+from flask import Blueprint, render_template, request, session, url_for, redirect, jsonify, make_response
 from flask_login import login_required
 
 from cruddy.query import *
@@ -42,6 +42,9 @@ def crud_login():
         email = request.form.get("email")
         password = request.form.get("password")
         if login(email, password):       # zero index [0] used as email is a tuple
+            # HACK 2
+            user = user_by_email(email)
+            session['username'] = user.name
             return redirect(url_for('crud.crud'))
 
     # if not logged in, show the login page
